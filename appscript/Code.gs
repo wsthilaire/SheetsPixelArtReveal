@@ -16,13 +16,15 @@ function receiveMessage(data) {
   Logger.log(data);
   Logger.log(data.stages[0]);
 
-  const cellImage = SpreadsheetApp.newCellImage()
-    .setSourceUrl(data.stages[0])
-    .build();
- 
-  // Drop it into A1 of the active sheet
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-  sheet.getRange("A1").setValue(cellImage);
+  for (let stage = 0; stage < data.stages.length; stage++){
+    const cellImage = SpreadsheetApp.newCellImage()
+      .setSourceUrl(data.stages[stage])
+      .build();
+    
+    // Drop it into A1 of the active sheet
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    sheet.getRange("A1").setValue(cellImage);
+  }
 }
 
 function onOpen() {

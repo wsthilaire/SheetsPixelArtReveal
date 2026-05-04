@@ -98,7 +98,7 @@ generateBtn.addEventListener('click', () => {
 
         stages.push(canvas.toDataURL('image/png'));
     }
-    window.parent.postMessage({ stages: [stages[10]] }, '*');
+    window.parent.postMessage({ stages: stages }, '*');
     setStatus("Done generating", "Finished generating 20 stages...")
     
 });

@@ -64,7 +64,41 @@ generateBtn.addEventListener('click', () => {
     if (!loadedImage) return;
     setStatus('working', 'Generating 20 stages...');
     const croppedCanvas = cropper.getCroppedCanvas();
-    // TODO: tile generation logic goes here
+    const canvas = document.createElement('canvas');
+    canvas.width = croppedCanvas.width;
+    canvas.height = croppedCanvas.height;
+    const ctx = croppedCanvas.getContext('2d');
+    //build list to shuffle
+    const cols = 20, rows = 20;
+    const tiles = [];
+    for (let r = 0; r < rows; r++)
+        for (let c = 0; c < cols; c++)
+            tiles.push({r,c});
+    
+    // shuffle time
+    tiles.sort(() => Math.random() - 0.5)//0.5 so it returns either negative or positive
+
+    //generate an image
+    const tileW = croppedCanvas.width / cols;
+    const tileH = croppedCanvas.height / rows;
+    const stages = [];
+    for (let stage = 0; stage <20; stage++){//stages set to 20 here for 20 images generated
+        ctx.drawImage(croppedCanvas, 0, 0, canvas.width, canvas.height);
+
+        const revealed = Math.floor(((stage + 1) / 20 ) * tiles.length); 
+        
+
+        //draw the white
+        ctx.fillStyle = 'white';
+        tiles.slice(revealed).forEach(({r,c}) => {
+            ctx.fillRect(c * tileW, r * tileH, tileW, tileH);
+        });
+
+        stages.push(canvas.toDataURL('image/png'));
+    }
+    window.parent.postMessage({ stages: stages }, '*');
+    setStatus("Done generating", "Finished generating 20 stages...")
+    
 });
 
 function setStatus(state, text) {

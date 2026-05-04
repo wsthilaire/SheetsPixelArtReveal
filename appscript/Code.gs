@@ -12,10 +12,7 @@ function openSidebar() {
 }
 
 function receiveMessage(data) {
-  Logger.log(JSON.stringify(data));
-  SpreadsheetApp.getActiveSheet()
-    .getRange("A1")
-    .setValue("Bridge works: " + data.test);
+  embedStages(data.stages);
 }
 
 function onOpen() {

@@ -79,6 +79,8 @@ generateBtn.addEventListener('click', () => {
     // shuffle time
     tiles.sort(() => Math.random() - 0.5)//0.5 so it returns either negative or positive
 
+    ctx.strokeStyle = 'grey';
+    ctx.lineWidth = 2;
     //generate an image
     const tileW = canvas.width / cols;
     const tileH = canvas.height / rows;
@@ -92,13 +94,17 @@ generateBtn.addEventListener('click', () => {
         //draw the white
         ctx.fillStyle = 'white';
         tiles.slice(revealed).forEach(({r,c}) => {
-            ctx.fillRect(c * tileW, r * tileH, tileW, tileH);
+            ctx.fillRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
+            ctx.strokeRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
         });
 
         stages.push(canvas.toDataURL('image/png'));
     }
+    const testPreview = document.getElementById('test-preview');
+    testPreview.src = stages[9];
+    testPreview.style.display = 'block';
     window.parent.postMessage({ stages: stages }, '*');
-    setStatus("Done generating", "Finished generating 20 stages...")
+    setStatus("ready", "Finished generating 20 stages...")
     
 });
 

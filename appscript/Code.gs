@@ -17,7 +17,7 @@ function receiveMessage(data) {
   Logger.log(data.stages[1]);
   Logger.log(data.stages.length);
 
-  for (let stage = 0; stage < 20; stage++){
+  for (let stage = 0; stage < data.stages.length; stage++){
     const cellImage = SpreadsheetApp.newCellImage()
       .setSourceUrl(data.stages[stage])
       .build();

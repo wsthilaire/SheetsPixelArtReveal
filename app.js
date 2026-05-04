@@ -65,8 +65,10 @@ generateBtn.addEventListener('click', () => {
     setStatus('working', 'Generating 20 stages...');
     const croppedCanvas = cropper.getCroppedCanvas();
     const canvas = document.createElement('canvas');
-    canvas.width = croppedCanvas.width;
-    canvas.height = croppedCanvas.height;
+    const MAX = 400;
+    const scale = Math.min(1, MAX / croppedCanvas.width);
+    canvas.width = croppedCanvas.width * scale;
+    canvas.height = croppedCanvas.height * scale;
     const ctx = croppedCanvas.getContext('2d');
     //build list to shuffle
     const cols = 20, rows = 20;

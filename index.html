@@ -1,10 +1,66 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixel Reveal</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1/dist/cropper.min.css">
+</head>
 <body>
-  <p>Sending message...</p>
-  <script>
-    window.parent.postMessage({ test: "hello from GitHub Pages" }, "*");
-  </script>
+  <div class="container">
+
+    <header>
+      <h1>Pixel Reveal</h1>
+      <p></p>
+    </header>
+
+    <!-- Step 1: Upload -->
+    <div>
+      <div class="step-pill">
+        <span class="num">1</span> Upload image
+      </div>
+      <div class="card">
+        <h2>Choose your image</h2>
+        <label class="upload-zone" id="upload-zone">
+          <div class="upload-icon">🖼️</div>
+          <p class="hint">Click to upload or drag and drop</p>
+          <p class="sub">PNG, JPG, GIF — up to 10MB</p>
+          <input type="file" id="file-input" accept="image/*">
+        </label>
+      </div>
+    </div>
+
+    <!-- Step 2: Crop -->
+    <div>
+      <div class="step-pill">
+        <span class="num">2</span> Crop
+      </div>
+      <div class="card">
+        <h2>Crop your image</h2>
+        <div class="crop-area" id="crop-area">
+          <div class="crop-placeholder" id="crop-placeholder">
+            <div class="icon">✂️</div>
+            <p>Upload an image first</p>
+          </div>
+          <img id="crop-img" style="display:none; max-width:100%;">
+        </div>
+        <div class="action-row">
+          <button class="btn btn-ghost" id="reset-btn" disabled>Reset</button>
+          <button class="btn btn-primary" id="generate-btn" disabled>Generate 20 stages →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status" id="status">
+      <div class="status-dot"></div>
+      <span id="status-text">Waiting for image...</span>
+    </div>
+
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/cropperjs@1/dist/cropper.min.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

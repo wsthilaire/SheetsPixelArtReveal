@@ -24,7 +24,7 @@ function receiveMessage(data) {
     
     // Drop it into A1 of the active sheet
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    sheet.getRange("A"+(stage+1)).setValue(cellImage);
+    sheet.getRange("Z"+(stage+100)).setValue(cellImage);
   }
 }
 

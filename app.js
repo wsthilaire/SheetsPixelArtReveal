@@ -85,6 +85,16 @@ generateBtn.addEventListener('click', () => {
     const tileW = canvas.width / cols;
     const tileH = canvas.height / rows;
     const stages = [];
+
+    //draw blank one first
+    ctx.drawImage(croppedCanvas, 0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'white';
+        tiles.slice(0).forEach(({r,c}) => {
+            ctx.fillRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
+            ctx.strokeRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
+        });
+    stages.push(canvas.toDataURL('image/png'));
+
     for (let stage = 0; stage <20; stage++){//stages set to 20 here for 20 images generated
         ctx.drawImage(croppedCanvas, 0, 0, canvas.width, canvas.height);
 
@@ -101,7 +111,7 @@ generateBtn.addEventListener('click', () => {
         stages.push(canvas.toDataURL('image/png'));
     }
     const testPreview = document.getElementById('test-preview');
-    testPreview.src = stages[9];
+    testPreview.src = stages[0];
     testPreview.style.display = 'block';
     window.parent.postMessage({ stages: stages }, '*');
     setStatus("ready", "Finished generating 20 stages...")

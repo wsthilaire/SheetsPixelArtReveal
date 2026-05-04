@@ -30,12 +30,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 48px 24px 80px;
+  padding: 48px 5px 80px;
 }
 
 .container {
   width: 100%;
-  max-width: 640px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   gap: 28px;
@@ -108,7 +108,7 @@ header p {
   background: var(--warm-white);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px;
+  padding: 5px;
   box-shadow: var(--shadow);
 }
 

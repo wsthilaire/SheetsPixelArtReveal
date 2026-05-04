@@ -49,6 +49,8 @@ function loadImage(file) {
 
 //reset button
 resetBtn.addEventListener('click', () => {
+    const testPreview = document.getElementById('test-preview');
+    testPreview.style.display = 'none';
     cropper.destroy();
     cropper = null;
     loadedImage = false;

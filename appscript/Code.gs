@@ -13,9 +13,8 @@ function openSidebar() {
 
 function receiveMessage(data) {
   //var sheet = SpreadsheetApp.getActiveSheet();
-  Logger.log(data)
-  const base64   = Utilities.base64Encode(blob.getBytes());
-  const dataUrl  = "data:" + blob.getContentType() + ";base64," + base64;
+  Logger.log(data);
+  Logger.log(data.stages[0]);
 
   const cellImage = SpreadsheetApp.newCellImage()
     .setSourceUrl(data.stages[0])

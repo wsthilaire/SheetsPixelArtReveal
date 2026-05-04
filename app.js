@@ -69,7 +69,7 @@ generateBtn.addEventListener('click', () => {
     const scale = Math.min(1, MAX / croppedCanvas.width);
     canvas.width = croppedCanvas.width * scale;
     canvas.height = croppedCanvas.height * scale;
-    const ctx = croppedCanvas.getContext('2d');
+    const ctx = canvas.getContext('2d');
     //build list to shuffle
     const cols = 20, rows = 20;
     const tiles = [];
@@ -81,8 +81,8 @@ generateBtn.addEventListener('click', () => {
     tiles.sort(() => Math.random() - 0.5)//0.5 so it returns either negative or positive
 
     //generate an image
-    const tileW = croppedCanvas.width / cols;
-    const tileH = croppedCanvas.height / rows;
+    const tileW = canvas.width / cols;
+    const tileH = canvas.height / rows;
     const stages = [];
     for (let stage = 0; stage <20; stage++){//stages set to 20 here for 20 images generated
         ctx.drawImage(croppedCanvas, 0, 0, canvas.width, canvas.height);

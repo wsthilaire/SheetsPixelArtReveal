@@ -1,7 +1,7 @@
 function openSidebar() {
   var html = HtmlService.createHtmlOutput(
     '<iframe src="https://wsthilaire.github.io/SheetsPixelArtReveal/" ' +
-    'width="100%" height="400px"></iframe>' +
+    'width="100%" height="800px"></iframe>' +
     '<script>' +
     'window.addEventListener("message", function(e) {' +
     '  google.script.run.receiveMessage(e.data);' +
@@ -12,7 +12,15 @@ function openSidebar() {
 }
 
 function receiveMessage(data) {
-  embedStages(data.stages);
+  var sheet = SpreadsheetApp.getActiveSheet();
+  
+  var image = SpreadsheetApp.newCellImage()
+    .setSourceUrl(data.stages[0])
+    .setAltTextTitle('Stage 1')
+    .toBuilder()
+    .build();
+
+  sheet.getRange('A1').setValue(image);
 }
 
 function onOpen() {

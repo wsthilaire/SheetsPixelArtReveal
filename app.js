@@ -65,8 +65,7 @@ generateBtn.addEventListener('click', () => {
     setStatus('working', 'Generating 20 stages...');
     const croppedCanvas = cropper.getCroppedCanvas();
     const canvas = document.createElement('canvas');
-    const MAX = 400;
-    const scale = Math.min(1, MAX / croppedCanvas.width);
+    const scale = Math.min(1, 1280 / croppedCanvas.width, 720 / croppedCanvas.height);
     canvas.width = croppedCanvas.width * scale;
     canvas.height = croppedCanvas.height * scale;
     const ctx = canvas.getContext('2d');

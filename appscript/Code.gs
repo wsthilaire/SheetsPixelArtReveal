@@ -14,16 +14,17 @@ function openSidebar() {
 function receiveMessage(data) {
   //var sheet = SpreadsheetApp.getActiveSheet();
   Logger.log(data);
-  Logger.log(data.stages[0]);
+  Logger.log(data.stages[1]);
+  Logger.log(data.stages.length);
 
-  for (let stage = 0; stage < data.stages.length; stage++){
+  for (let stage = 0; stage < 20; stage++){
     const cellImage = SpreadsheetApp.newCellImage()
       .setSourceUrl(data.stages[stage])
       .build();
     
     // Drop it into A1 of the active sheet
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    sheet.getRange("A1").setValue(cellImage);
+    sheet.getRange("A"+(stage+1)).setValue(cellImage);
   }
 }
 

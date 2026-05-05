@@ -37,7 +37,9 @@ function loadImage(file) {
             generateBtn.disabled = false;
             resetBtn.disabled = false;
             cropper = new Cropper(cropImg,{
-                viewMode: 1
+                aspectRatio: 3/2,
+                viewMode: 1,
+                autoCropArea: 1
             });
             setStatus('ready', 'Image loaded — ready to generate');
             document.getElementById('crop-img').scrollIntoView({ behavior: 'smooth' });

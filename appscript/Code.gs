@@ -1,6 +1,6 @@
 function openSidebar() {
   var html = HtmlService.createHtmlOutput(
-    '<iframe src="https://wsthilaire.github.io/SheetsPixelArtReveal/" ' +
+    '<iframe src="https://wsthilaire.github.io/SheetsPixelArtReveal/?v=' + Date.now() + '"' +
     'width="100%" height="800px"></iframe>' +
     '<script>' +
     'window.addEventListener("message", function(e) {' +
@@ -32,15 +32,6 @@ function receiveMessage(data) {
     ss.getRange("Z"+(stage+100)).setValue(cellImage);
     
   }
-
-  //This copies the QA questions over to the sheet hidden cells
-  var source = ss.getSheetByName("Q&A");
-  if(!source){
-    generateQASheet();
-  };
-  const sourceRange = source.getRange("B2:C21");
-  const destRange = sheet.getRange("W101");
-  sourceRange.copyTo(destRange);
 }
 
 function generateQASheet() {
@@ -56,8 +47,15 @@ function generateQASheet() {
   sheet.getRange("A1").setValue("Question #");
   sheet.getRange("B1").setValue("Question");
   sheet.getRange("C1").setValue("Answer");
+  sheet.getRange("D2").setValue("Instructions: Set the questions column to the questions you want on the Activity"+
+    ". Set the answers in the answers column. Once those are set you can use the Pixel Reveal tab at the top to "+
+    "'Open Setup' and then select your settings, upload the image, and generate. Allow a few minutes after clicking "+
+    "insert image before you close the application window or else it might not work. Then select in the Pixel Reveal tab"+
+    " the Export student copy button. This will create a link to share.");
   sheet.getRange("D1").setValue("These are example questions and answers");
-
+  sheet.getRange("D2:G15").merge();
+  sheet.getRange("D2:G15").setWrap(true);
+  sheet.getRange("D2:G15").setVerticalAlignment("top");
   sheet.getRange("A1:C1").setFontWeight("bold");
   sheet.getRange("D1").setFontWeight("italic");
   sheet.setColumnWidth(1, 80);
@@ -101,10 +99,43 @@ function generateQASheet() {
 function cleanUp(){
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const activity = ss.getSheetByName("Activity");
-  const qa = ss.getSheetByName("Q&A");
   ss.setActiveSheet(activity);
   activity.hideColumns(22,6);
-  qa.hideSheet();
+}
+
+function exportStudentCopy() {
+  //This copies the QA questions over to the sheet hidden cells
+  var ssQA = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetAct = ssQA.getSheetByName("Activity");
+  var source = ssQA.getSheetByName("Q&A");
+  if(!source){
+    generateQASheet();
+  };
+  var sourceRange = source.getRange("B2:C21");
+  var destRange = sheetAct.getRange("W101");
+  sourceRange.copyTo(destRange);
+  sourceRange = source.getRange("B2:C11");
+  destRange = sheetAct.getRange("B5");
+  sourceRange.copyValuesToRange(destRange);
+  sourceRange = source.getRange("B12:C21");
+  destRange = sheetAct.getRange("N5");
+  sourceRange.copyValuesToRange(destRange);
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const activity = ss.getSheetByName("Activity");
+  if (!activity) {
+    SpreadsheetApp.getUi().alert("No Activity sheet found. Please don't rename the Activity sheet, if you did switch it back to 'Activity' and it should work.");
+    return;
+  }
+  const studentSS = SpreadsheetApp.create(ss.getName() + " - Student Copy");
+  activity.copyTo(studentSS).setName("Activity");
+  studentSS.deleteSheet(studentSS.getSheets()[0]);
+  const studentActivity = studentSS.getSheetByName("Activity");
+  studentActivity.getRange("C5:C14").setValue("");
+  studentActivity.getRange("O5:O14").setValue("");
+  DriveApp.getFileById(studentSS.getId()).setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.EDIT);
+  const url = studentSS.getUrl();
+  SpreadsheetApp.getUi().alert("Student copy created! Share this link:\n\n" + url);
 }
 
 function onOpen() {
@@ -112,6 +143,7 @@ function onOpen() {
     .createMenu("Pixel Reveal")
     .addItem("Open Setup", "openSidebar")
     .addItem("Generate Q&A Sheet", "generateQASheet")
-    .addItem("Hide Answers", "cleanUp")
+    //.addItem("Hide Answers", "cleanUp")
+    .addItem("Export Student Copy", "exportStudentCopy")
     .addToUi();
 }

@@ -41,11 +41,36 @@ function generateQASheet() {
   sheet.setColumnWidth(2, 300);
   sheet.setColumnWidth(3, 300);
   sheet.getRange("A2:A21").setHorizontalAlignment("left")
-  sheet.getRange("B2:B21").setHorizontalAlignment("center")
-  sheet.getRange("C2:C21").setHorizontalAlignment("center")
+  sheet.getRange("B1:B21").setHorizontalAlignment("center")
+  sheet.getRange("C1:C21").setHorizontalAlignment("center")
 
-  for (let i = 2; i <= 21; i++) {
-    sheet.getRange("A" + i).setValue(i - 1);
+  const qa = [
+    ["6n + 2n = 32", 4],
+    ["3x + x = 8", 2],
+    ["2(x + 3) = 18", 6],
+    ["5x − 2x = 18", 6],
+    ["5x − x = 32", 8],
+    ["4x − 3x = 1", 1],
+    ["4(x − 1) = 20", 6],
+    ["10x − x = 81", 9],
+    ["3x + 2x = 25", 5],
+    ["2(x + 4) = 24", 8],
+    ["5x − 2x = 9", 3],
+    ["7(x − 2) = 35", 7],
+    ["2(x + 2) = 12", 4],
+    ["3(x + 1) = 6", 1],
+    ["10x − 3x = 49", 7],
+    ["2x + x = 18", 6],
+    ["2(x + 12) = 42", 9],
+    ["6x - 2x = 8", 2],
+    ["x + x + x = 6", 2],
+    ["2(x + 5) = 20", 5],
+  ];
+
+  for (let i = 0; i < qa.length; i++) {
+    sheet.getRange("A" + (i + 2)).setValue(i + 1);
+    sheet.getRange("B" + (i + 2)).setValue(qa[i][0]);
+    sheet.getRange("C" + (i + 2)).setValue(qa[i][1]);
   }
 }
 

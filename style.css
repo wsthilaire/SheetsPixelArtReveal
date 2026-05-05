@@ -9,6 +9,7 @@
 :root {
   --cream: #fdf8f2;
   --warm-white: #ffffff;
+  --warm-sand: #faf1e8;
   --sand: #f0e9de;
   --border: #e2d9cf;
   --text: #2d2418;
@@ -118,6 +119,31 @@ header p {
   font-weight: 600;
   margin-bottom: 16px;
   color: var(--text);
+}
+/* -- Settings panel --*/
+.settings-area {
+  background: var(--warm-sand);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content:start;
+  overflow: hidden;
+  position: relative;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* ── Select ── */
+select {
+  font-family: 'Nunito', sans-serif;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: var(--text);
+  width: fit-content;
 }
 
 /* ── Upload zone ── */

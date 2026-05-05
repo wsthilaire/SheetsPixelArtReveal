@@ -28,9 +28,31 @@ function receiveMessage(data) {
   }
 }
 
+function generateQASheet() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.insertSheet("Q&A");
+
+  sheet.getRange("A1").setValue("Question #");
+  sheet.getRange("B1").setValue("Question");
+  sheet.getRange("C1").setValue("Answer");
+
+  sheet.getRange("A1:C1").setFontWeight("bold");
+  sheet.setColumnWidth(1, 80);
+  sheet.setColumnWidth(2, 300);
+  sheet.setColumnWidth(3, 300);
+  sheet.getRange("A2:A21").setHorizontalAlignment("left")
+  sheet.getRange("B2:B21").setHorizontalAlignment("center")
+  sheet.getRange("C2:C21").setHorizontalAlignment("center")
+
+  for (let i = 2; i <= 21; i++) {
+    sheet.getRange("A" + i).setValue(i - 1);
+  }
+}
+
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("Pixel Reveal")
     .addItem("Open Setup", "openSidebar")
+    .addItem("Generate Q&A Sheet", "generateQASheet")
     .addToUi();
 }

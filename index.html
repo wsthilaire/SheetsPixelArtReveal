@@ -15,10 +15,34 @@
       <p></p>
     </header>
 
-    <!-- Step 1: Upload -->
+    <!--Step 1: Settings -->
     <div>
       <div class="step-pill">
-        <span class="num">1</span> Upload image
+        <span class="num">1</span> Setup
+      </div>
+      <div class="card">
+        <h2>Choose your settings</h2>
+        <div class="settings-area" id="settings">
+          <div style="padding-right: 4px;">Remember to first set Q&A answers</div>
+          <div style="padding-right: 4px; display: flex; align-items: center; gap: 4px;">Select grid size:
+            <select name = "grid size" id="grid-size">
+            <option data-row="20" data-col="20" data-outline="true">20x20 Square w/ outline</option>
+            <option data-row="40" data-col="40" data-outline="true">40x40 Square w/ outline</option>
+            <option data-row="80" data-col="80" data-outline="true">80x80 Square w/ outline</option>
+            <option data-row="20" data-col="20" data-outline="false">20x20 Square no outline</option>
+            <option data-row="40" data-col="40" data-outline="false">40x40 Square no outline</option>
+            <option data-row="80" data-col="80" data-outline="false">80x80 Square no outline</option>
+          </select>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Upload -->
+    <div>
+      <div class="step-pill">
+        <span class="num">2</span> Upload image
       </div>
       <div class="card">
         <h2>Choose your image</h2>
@@ -31,10 +55,10 @@
       </div>
     </div>
 
-    <!-- Step 2: Crop -->
+    <!-- Step 3: Crop -->
     <div>
       <div class="step-pill">
-        <span class="num">2</span> Crop
+        <span class="num">3</span> Crop
       </div>
       <div class="card">
         <h2>Crop your image</h2>
@@ -47,7 +71,7 @@
         </div>
         <div class="action-row">
           <button class="btn btn-ghost" id="reset-btn" disabled>Reset</button>
-          <button class="btn btn-primary" id="generate-btn" disabled>Generate 20 stages →</button>
+          <button class="btn btn-primary" id="generate-btn" disabled>Insert Image →</button>
         </div>
       </div>
     </div>

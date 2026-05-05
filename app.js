@@ -1,5 +1,5 @@
-
-
+let rows = 20;
+let cols = 20;
 const fileInput = document.getElementById('file-input');
 const uploadZone = document.getElementById('upload-zone');
 const generateBtn = document.getElementById('generate-btn');
@@ -40,6 +40,7 @@ function loadImage(file) {
                 viewMode: 1
             });
             setStatus('ready', 'Image loaded — ready to generate');
+            document.getElementById('crop-img').scrollIntoView({ behavior: 'smooth' });
         };
         cropImg.src = e.target.result;
         loadedImage = true;
@@ -65,6 +66,11 @@ resetBtn.addEventListener('click', () => {
 generateBtn.addEventListener('click', () => {
     if (!loadedImage) return;
     setStatus('working', 'Generating 20 stages...');
+    const selected = document.getElementById('grid-size');
+    const option = selected.options[selected.selectedIndex];
+    rows = Number(option.dataset.row);
+    cols = Number(option.dataset.col);
+    const outline = option.dataset.outline === 'true';
     const croppedCanvas = cropper.getCroppedCanvas();
     const canvas = document.createElement('canvas');
     const scale = Math.min(1, 1280 / croppedCanvas.width, 720 / croppedCanvas.height);
@@ -72,7 +78,6 @@ generateBtn.addEventListener('click', () => {
     canvas.height = croppedCanvas.height * scale;
     const ctx = canvas.getContext('2d');
     //build list to shuffle
-    const cols = 20, rows = 20;
     const tiles = [];
     for (let r = 0; r < rows; r++)
         for (let c = 0; c < cols; c++)
@@ -80,8 +85,12 @@ generateBtn.addEventListener('click', () => {
     
     // shuffle time
     tiles.sort(() => Math.random() - 0.5)//0.5 so it returns either negative or positive
+    if(outline){
+        ctx.strokeStyle = 'grey';
+    }else{
+        ctx.strokeStyle = 'white';
+    };
 
-    ctx.strokeStyle = 'grey';
     ctx.lineWidth = 2;
     //generate an image
     const tileW = canvas.width / cols;
@@ -94,6 +103,7 @@ generateBtn.addEventListener('click', () => {
         tiles.slice(0).forEach(({r,c}) => {
             ctx.fillRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
             ctx.strokeRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
+
         });
     stages.push(canvas.toDataURL('image/png'));
 
@@ -108,12 +118,13 @@ generateBtn.addEventListener('click', () => {
         tiles.slice(revealed).forEach(({r,c}) => {
             ctx.fillRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
             ctx.strokeRect(c * tileW, r * tileH, Math.ceil(tileW), Math.ceil(tileH));
+
         });
 
         stages.push(canvas.toDataURL('image/png'));
     }
     const testPreview = document.getElementById('test-preview');
-    testPreview.src = stages[0];
+    testPreview.src = stages[10];
     testPreview.style.display = 'block';
     window.parent.postMessage({ stages: stages }, '*');
     setStatus("ready", "Finished generating 20 stages...")

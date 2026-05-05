@@ -37,6 +37,10 @@ Creates a new Google Sheet with just the activity — no script, no answers. A s
 | 40x40 no outline | 1600 | |
 | 80x80 no outline | 6400 | |
 
+## Adjusting the image size
+
+The pixel reveal image sits in columns F through J of the Activity sheet. If the image looks too narrow or too wide, you can resize it by dragging the edges of those column headers to make them wider or narrower — the image will scale with them. Right-click a column header and choose **Resize column** if you want to set an exact width.
+
 ## Notes and limitations
 
 - Do not rename the **Activity** or **Q&A** sheets

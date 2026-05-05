@@ -116,10 +116,10 @@ function exportStudentCopy() {
   sourceRange.copyTo(destRange);
   sourceRange = source.getRange("B2:C11");
   destRange = sheetAct.getRange("B5");
-  sourceRange.copyValuesToRange(destRange);
+  sourceRange.copyTo(destRange, {contentsOnly: true});
   sourceRange = source.getRange("B12:C21");
   destRange = sheetAct.getRange("N5");
-  sourceRange.copyValuesToRange(destRange);
+  sourceRange.copyTo(destRange, {contentsOnly: true});
 
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const activity = ss.getSheetByName("Activity");

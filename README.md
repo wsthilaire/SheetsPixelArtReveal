@@ -21,7 +21,12 @@ This creates a Q&A tab pre-filled with 20 example algebra questions. Replace col
 
 A sidebar opens. Pick your grid size, upload an image, crop it, and click **Insert Image**. Wait a minute or two before closing the sidebar.
 
-### Step 3 — Share with students
+### Step 3 — Copy your questions to the activity
+**Pixel Reveal > Copy Q&A to Activity**
+
+Copies your questions and answers from the Q&A sheet into the Activity sheet. Run this any time you update your questions.
+
+### Step 4 — Share with students
 **Pixel Reveal > Export Student Copy**
 
 Creates a new Google Sheet with just the activity — no script, no answers. A shareable link is shown in a popup.

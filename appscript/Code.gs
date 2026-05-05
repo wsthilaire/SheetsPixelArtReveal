@@ -51,7 +51,8 @@ function generateQASheet() {
     ". Set the answers in the answers column. Once those are set you can use the Pixel Reveal tab at the top to "+
     "'Open Setup' and then select your settings, upload the image, and generate. Allow a few minutes after clicking "+
     "insert image before you close the application window or else it might not work. Then select in the Pixel Reveal tab"+
-    " the Export student copy button. This will create a link to share.");
+    " Copy Q&A to Activity, this will let you demo the activity before you export, just delete the answers to see how it works "+
+    "then click the Export student copy button. This will create a link to share.");
   sheet.getRange("D1").setValue("These are example questions and answers");
   sheet.getRange("D2:G15").merge();
   sheet.getRange("D2:G15").setWrap(true);
@@ -103,13 +104,14 @@ function cleanUp(){
   activity.hideColumns(22,6);
 }
 
-function exportStudentCopy() {
+function copyAnswers(){
   //This copies the QA questions over to the sheet hidden cells
   var ssQA = SpreadsheetApp.getActiveSpreadsheet();
   var sheetAct = ssQA.getSheetByName("Activity");
   var source = ssQA.getSheetByName("Q&A");
   if(!source){
-    generateQASheet();
+    SpreadsheetApp.getUi().alert("No Q&A sheet found. Use Pixel Reveal > Generate Q&A Sheet to set up your questions and answers first.");
+    return;
   };
   var sourceRange = source.getRange("B2:C21");
   var destRange = sheetAct.getRange("W101");
@@ -120,7 +122,10 @@ function exportStudentCopy() {
   sourceRange = source.getRange("B12:C21");
   destRange = sheetAct.getRange("N5");
   sourceRange.copyTo(destRange, {contentsOnly: true});
+}
 
+function exportStudentCopy() {
+  copyAnswers();
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const activity = ss.getSheetByName("Activity");
   if (!activity) {
@@ -143,7 +148,7 @@ function onOpen() {
     .createMenu("Pixel Reveal")
     .addItem("Open Setup", "openSidebar")
     .addItem("Generate Q&A Sheet", "generateQASheet")
-    //.addItem("Hide Answers", "cleanUp")
+    .addItem("Copy Q&A to Activity", "copyAnswers")
     .addItem("Export Student Copy", "exportStudentCopy")
     .addToUi();
 }

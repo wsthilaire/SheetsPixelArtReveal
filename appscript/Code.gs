@@ -17,26 +17,49 @@ function receiveMessage(data) {
   Logger.log(data.stages[1]);
   Logger.log(data.stages.length);
 
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName("Activity");
+  if(sheet) {
+    ss.setActiveSheet(sheet);
+  };
+
   for (let stage = 0; stage < data.stages.length; stage++){
     const cellImage = SpreadsheetApp.newCellImage()
       .setSourceUrl(data.stages[stage])
       .build();
     
-    // Drop it into A1 of the active sheet
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    sheet.getRange("Z"+(stage+100)).setValue(cellImage);
+    // Drop it into Z100 of the active sheet
+    ss.getRange("Z"+(stage+100)).setValue(cellImage);
+    
   }
+
+  //This copies the QA questions over to the sheet hidden cells
+  var source = ss.getSheetByName("Q&A");
+  if(!source){
+    generateQASheet();
+  };
+  const sourceRange = source.getRange("B2:C21");
+  const destRange = sheet.getRange("W101");
+  sourceRange.copyTo(destRange);
 }
 
 function generateQASheet() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const existing = ss.getSheetByName("Q&A");
+  if (existing) {
+    existing.showSheet();
+    SpreadsheetApp.getUi().alert("Q&A sheet already exists — it has been unhidden.");
+    return;
+  }
   const sheet = ss.insertSheet("Q&A");
 
   sheet.getRange("A1").setValue("Question #");
   sheet.getRange("B1").setValue("Question");
   sheet.getRange("C1").setValue("Answer");
+  sheet.getRange("D1").setValue("These are example questions and answers");
 
   sheet.getRange("A1:C1").setFontWeight("bold");
+  sheet.getRange("D1").setFontWeight("italic");
   sheet.setColumnWidth(1, 80);
   sheet.setColumnWidth(2, 300);
   sheet.setColumnWidth(3, 300);
@@ -48,18 +71,18 @@ function generateQASheet() {
     ["6n + 2n = 32", 4],
     ["3x + x = 8", 2],
     ["2(x + 3) = 18", 6],
-    ["5x − 2x = 18", 6],
-    ["5x − x = 32", 8],
-    ["4x − 3x = 1", 1],
-    ["4(x − 1) = 20", 6],
-    ["10x − x = 81", 9],
+    ["5x - 2x = 18", 6],
+    ["5x - x = 32", 8],
+    ["4x - 3x = 1", 1],
+    ["4(x - 1) = 20", 6],
+    ["10x - x = 81", 9],
     ["3x + 2x = 25", 5],
     ["2(x + 4) = 24", 8],
-    ["5x − 2x = 9", 3],
-    ["7(x − 2) = 35", 7],
+    ["5x - 2x = 9", 3],
+    ["7(x - 2) = 35", 7],
     ["2(x + 2) = 12", 4],
     ["3(x + 1) = 6", 1],
-    ["10x − 3x = 49", 7],
+    ["10x - 3x = 49", 7],
     ["2x + x = 18", 6],
     ["2(x + 12) = 42", 9],
     ["6x - 2x = 8", 2],
@@ -74,10 +97,21 @@ function generateQASheet() {
   }
 }
 
+//This cleans up, hides the answers, hides the ugly rows, makes everything dissapear
+function cleanUp(){
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const activity = ss.getSheetByName("Activity");
+  const qa = ss.getSheetByName("Q&A");
+  ss.setActiveSheet(activity);
+  activity.hideColumns(22,6);
+  qa.hideSheet();
+}
+
 function onOpen() {
   SpreadsheetApp.getUi()
     .createMenu("Pixel Reveal")
     .addItem("Open Setup", "openSidebar")
     .addItem("Generate Q&A Sheet", "generateQASheet")
+    .addItem("Hide Answers", "cleanUp")
     .addToUi();
 }

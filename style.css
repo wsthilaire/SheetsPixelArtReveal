@@ -125,14 +125,11 @@ header p {
   background: var(--warm-sand);
   border: 1px solid var(--border);
   border-radius: 12px;
-  min-height: 300px;
+  padding: 12px;
   display: flex;
-  align-items: center;
-  justify-content:start;
-  overflow: hidden;
-  position: relative;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
+  width: 100%;
 }
 
 /* ── Select ── */
